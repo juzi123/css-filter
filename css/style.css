@@ -1,0 +1,11 @@
+.main {
+
+}
+.mask-image {
+    width: 270px; 
+    height: 200px;
+    mask-image: url(../img/gift.png); 
+    -webkit-mask-image: url(../img/gift.png); 
+    mask-repeat: no-repeat;
+    mask-position: center;
+}

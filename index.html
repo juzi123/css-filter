@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <div id="app" class="main">
+    <p>选择初始颜色</p>
+    <input type="text" v-model="color1">
+    <el-color-picker v-model="color1" @change="colorPick"></el-color-picker>
+    <div>
+      <div id="originImage" class="mask-image"></div>
+      <div id="filterImage" class="mask-image"></div>
+    </div>
+    <!-- <img src="./img/gift.png" alt=""> -->
+
+    <div class="inputs">
+        <p>Invert</p>
+        <input id="invert" name="invert" class="control" type="range" step="0.01" min="0" max="0.4" v-model="invertVal" @change="colorPick">
+        <p>Sepia</p>
+        <input id="sepia" name="sepia" class="control" type="range" step="0.5" min="0" max="2" v-model="sepiaVal" @change="colorPick">
+        <p>Saturate</p>
+        <input id="saturate" name="saturate" class="control" type="range" step="0.1" min="1" max="20" v-model="saturateVal" @change="colorPick">
+        <p>Hue Rotate</p>
+        <input id="hueRotate" name="hueRotate" class="control" type="range" step="0.01" min="0" max="1" v-model="hueRotateVal" @change="colorPick">
+        <p>Brightness</p>
+        <input id="brightness" name="brightness" class="control" type="range" step="0.01" min="0.5" max="1.2" v-model="brightnessVal" @change="colorPick">
+      </div>
+  </div>
+</body>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: function() {
+        return { 
+            visible: false,
+            color1: '#409EFF',
+            invertVal: 0,
+            sepiaVal: 0,
+            saturateVal: 0,
+            hueRotateVal: 0,
+            brightnessVal: 0            
+        }
+      },
+      mounted() {
+        this.colorPick();
+        this.inputChange();
+      },
+      methods: {
+        inputChange() {
+          // debugger
+          let inputs = document.querySelectorAll('input'); 
+          inputs.forEach(inputItem => {
+            inputItem.oninput = this.setFilter();
+          })
+        },
+        colorPick(val) {
+            let obj = document.getElementById("originImage");
+            obj.style.cssText = `background-color: ${this.color1};`
+            this.setFilter();
+        },
+        setFilter() {
+            let filterImg = document.getElementById("filterImage");
+            filterImg.style.cssText = `background-color: ${this.color1}; 
+                                      filter: invert(${this.invertVal}) 
+                                      sepia(${this.sepiaVal}) 
+                                      saturate(${this.saturateVal}) 
+                                      hue-rotate(${this.hueRotateVal}deg) 
+                                      brightness(${this.brightnessVal});`
+        }
+      }
+    })
+  </script>
+</html>
