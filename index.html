@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
   <link rel="stylesheet" href="./css/style.css">
 </head>
+
 <body>
   <div id="app" class="main">
     <p>选择初始颜色</p>
-    <input type="text" v-model="color1">
+    <input type="text" v-model="color1" @input="colorPick">
     <el-color-picker v-model="color1" @change="colorPick"></el-color-picker>
     <div>
       <div id="originImage" class="mask-image"></div>
@@ -17,62 +19,114 @@
     <!-- <img src="./img/gift.png" alt=""> -->
 
     <div class="inputs">
-        <p>Invert</p>
-        <input id="invert" name="invert" class="control" type="range" step="0.01" min="0" max="0.4" v-model="invertVal" @change="colorPick">
-        <p>Sepia</p>
-        <input id="sepia" name="sepia" class="control" type="range" step="0.5" min="0" max="2" v-model="sepiaVal" @change="colorPick">
-        <p>Saturate</p>
-        <input id="saturate" name="saturate" class="control" type="range" step="0.1" min="1" max="20" v-model="saturateVal" @change="colorPick">
-        <p>Hue Rotate</p>
-        <input id="hueRotate" name="hueRotate" class="control" type="range" step="0.01" min="0" max="1" v-model="hueRotateVal" @change="colorPick">
-        <p>Brightness</p>
-        <input id="brightness" name="brightness" class="control" type="range" step="0.01" min="0.5" max="1.2" v-model="brightnessVal" @change="colorPick">
+      <div>
+        <span>Invert:</span>
+        <input id="invert" name="invert" class="control" type="range" step="1" min="0" max="100" v-model="invertVal"
+          @input="colorPick">
+        <span>{{invertVal}}%</span>
       </div>
+      <div>
+        <span>Sepia:</span>
+        <input id="sepia" class="control" type="range" step="1" min="0" max="200" v-model="sepiaVal"
+          @input="colorPick">
+          <span>{{sepiaVal}}%</span>
+      </div>
+      <div>
+        <span>Saturate:</span>
+        <input id="saturate"class="control" type="range" step="1" min="0" max="200"
+          v-model="saturateVal" @input="colorPick">
+          <span>{{saturateVal}}%</span>
+      </div>
+      <div>
+        <span>Hue Rotate:</span>
+        <input id="hueRotate" class="control" type="range" step="1" min="0" max="360"
+          v-model="hueRotateVal" @input="colorPick">
+          <span>{{hueRotateVal}}deg</span>
+      </div>
+      <div>
+        <span>Brightness:</span>
+        <input id="brightness" class="control" type="range" step="1" min="0" max="200"
+          v-model="brightnessVal" @input="colorPick">
+          <span>{{brightnessVal}}%</span>
+      </div>
+      <div>
+        <span>blur:</span>
+        <input id="blur" class="control" type="range" step="1" min="0" max="150" v-model="blurVal"
+          @input="colorPick">
+          <span>{{blurVal}}px</span>
+      </div>
+      <div>
+        <span>contrast:</span>
+        <input id="contrast" class="control" type="range" step="1" min="0" max="200" v-model="contrastVal"
+          @input="colorPick">
+          <span>{{contrastVal}}%</span>
+      </div>
+      <div>
+        <span>grayscale:</span>
+        <input id="grayscale" class="control" type="range" step="1" min="0" max="100" v-model="grayscaleVal"
+          @input="colorPick">
+          <span>{{grayscaleVal}}%</span>
+      </div>
+      <div>
+        <span>opacity:</span>
+        <input id="opacity" class="control" type="range" step="1" min="0" max="100" v-model="opacityVal"
+          @input="colorPick">
+          <span>{{opacityVal}}%</span>
+      </div>
+    </div>
   </div>
 </body>
-  <script src="https://unpkg.com/vue/dist/vue.js"></script>
-  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-  <script>
-    new Vue({
-      el: '#app',
-      data: function() {
-        return { 
-            visible: false,
-            color1: '#409EFF',
-            invertVal: 0,
-            sepiaVal: 0,
-            saturateVal: 0,
-            hueRotateVal: 0,
-            brightnessVal: 0            
-        }
-      },
-      mounted() {
-        this.colorPick();
-        this.inputChange();
-      },
-      methods: {
-        inputChange() {
-          // debugger
-          let inputs = document.querySelectorAll('input'); 
-          inputs.forEach(inputItem => {
-            inputItem.oninput = this.setFilter();
-          })
-        },
-        colorPick(val) {
-            let obj = document.getElementById("originImage");
-            obj.style.cssText = `background-color: ${this.color1};`
-            this.setFilter();
-        },
-        setFilter() {
-            let filterImg = document.getElementById("filterImage");
-            filterImg.style.cssText = `background-color: ${this.color1}; 
-                                      filter: invert(${this.invertVal}) 
-                                      sepia(${this.sepiaVal}) 
-                                      saturate(${this.saturateVal}) 
-                                      hue-rotate(${this.hueRotateVal}deg) 
-                                      brightness(${this.brightnessVal});`
-        }
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+  new Vue({
+    el: '#app',
+    data: function () {
+      return {
+        visible: false,
+        color1: '#409EFF',
+        invertVal: 0, // 反转输入图像,100%是完全反转,值为0%则图像无变化
+        sepiaVal: 0, // 将图像转换为深褐色。值定义转换的比例。值为100%则完全是深褐色的，值为0%图像无变化
+        saturateVal: 100, // 转换图像饱和度。值定义转换的比例。值为0%则是完全不饱和，值为100%则图像无变化。其他值，则是效果的线性乘子。超过100%的值是允许的，则有更高的饱和度
+        hueRotateVal: 0, // 	给图像应用色相旋转。"angle"一值设定图像会被调整的色环角度值。值为0deg，则图像无变化。若值未设置，默认值是0deg
+        brightnessVal: 100, // 亮度, 如果值是0%，图像会全黑。值是100%，则图像无变化,超过1更亮
+        blurVal: 0, // 给图像设置高斯模糊。"radius"一值设定高斯函数的标准差，或者是屏幕上以多少像素融在一起， 所以值越大越模糊
+        contrastVal: 100, // 	调整图像的对比度。值是0%的话，图像会全黑。值是100%，图像不变。值可以超过100%，意味着会运用更低的对比
+        grayscaleVal: 0, // 将图像转换为灰度图像。值定义转换的比例。值为100%则完全转为灰度图像，值为0%图像无变化。值在0%到100%之间，则是效果的线性乘子。若未设置，值默认是0
+        opacityVal: 100,  // 转化图像的透明程度。值定义转换的比例。值为0%则是完全透明，值为100%则图像无变化。值在0%和100%之间，则是效果的线性乘子，也相当于图像样本乘以数量。
       }
-    })
-  </script>
+    },
+    mounted() {
+      this.colorPick();
+      this.inputChange();
+    },
+    methods: {
+      inputChange() {
+        let inputs = document.querySelectorAll('input');
+        inputs.forEach(inputItem => {
+          inputItem.oninput = this.setFilter();
+        })
+      },
+      colorPick(e) {
+        let obj = document.getElementById("originImage");
+        obj.style.cssText = `background-color: ${this.color1};`
+        this.setFilter();
+      },
+      setFilter() {
+        let filterImg = document.getElementById("filterImage");
+        filterImg.style.cssText = `background-color: ${this.color1}; 
+                                      filter: invert(${this.invertVal}%) 
+                                      sepia(${this.sepiaVal}%) 
+                                      saturate(${this.saturateVal}%) 
+                                      hue-rotate(${this.hueRotateVal}deg) 
+                                      brightness(${this.brightnessVal}%)
+                                      blur(${this.blurVal}px)
+                                      contrast(${this.contrastVal}%)
+                                      grayscale(${this.grayscaleVal}%)
+                                      opacity(${this.opacityVal}%);`
+      }
+    }
+  })
+</script>
+
 </html>
