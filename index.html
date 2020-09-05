@@ -9,15 +9,15 @@
 
 <body>
   <div id="app" class="main">
-    <p>选择初始颜色</p>
-    <input type="text" v-model="color1" @input="colorPick">
-    <el-color-picker v-model="color1" @change="colorPick"></el-color-picker>
-    <div>
-      <div id="originImage" class="mask-image"></div>
-      <div id="filterImage" class="mask-image"></div>
+    <p>选择原始颜色</p>
+    <div class="color-picker-container">
+      <el-color-picker v-model="color1" @change="colorPick"></el-color-picker>
+      <input type="text" v-model="color1" @input="colorPick">
     </div>
+    <div id="originImage" class="mask-image"></div>
     <!-- <img src="./img/gift.png" alt=""> -->
 
+    <p>滑动改变filter属性</p>
     <div class="inputs">
       <div>
         <span>Invert:</span>
@@ -27,53 +27,53 @@
       </div>
       <div>
         <span>Sepia:</span>
-        <input id="sepia" class="control" type="range" step="1" min="0" max="200" v-model="sepiaVal"
-          @input="colorPick">
-          <span>{{sepiaVal}}%</span>
+        <input id="sepia" class="control" type="range" step="1" min="0" max="200" v-model="sepiaVal" @input="colorPick">
+        <span>{{sepiaVal}}%</span>
       </div>
       <div>
         <span>Saturate:</span>
-        <input id="saturate"class="control" type="range" step="1" min="0" max="200"
-          v-model="saturateVal" @input="colorPick">
-          <span>{{saturateVal}}%</span>
+        <input id="saturate" class="control" type="range" step="1" min="0" max="200" v-model="saturateVal"
+          @input="colorPick">
+        <span>{{saturateVal}}%</span>
       </div>
       <div>
         <span>Hue Rotate:</span>
-        <input id="hueRotate" class="control" type="range" step="1" min="0" max="360"
-          v-model="hueRotateVal" @input="colorPick">
-          <span>{{hueRotateVal}}deg</span>
+        <input id="hueRotate" class="control" type="range" step="1" min="0" max="360" v-model="hueRotateVal"
+          @input="colorPick">
+        <span>{{hueRotateVal}}deg</span>
       </div>
       <div>
         <span>Brightness:</span>
-        <input id="brightness" class="control" type="range" step="1" min="0" max="200"
-          v-model="brightnessVal" @input="colorPick">
-          <span>{{brightnessVal}}%</span>
+        <input id="brightness" class="control" type="range" step="1" min="0" max="200" v-model="brightnessVal"
+          @input="colorPick">
+        <span>{{brightnessVal}}%</span>
       </div>
       <div>
         <span>blur:</span>
-        <input id="blur" class="control" type="range" step="1" min="0" max="150" v-model="blurVal"
-          @input="colorPick">
-          <span>{{blurVal}}px</span>
+        <input id="blur" class="control" type="range" step="1" min="0" max="150" v-model="blurVal" @input="colorPick">
+        <span>{{blurVal}}px</span>
       </div>
       <div>
         <span>contrast:</span>
         <input id="contrast" class="control" type="range" step="1" min="0" max="200" v-model="contrastVal"
           @input="colorPick">
-          <span>{{contrastVal}}%</span>
+        <span>{{contrastVal}}%</span>
       </div>
       <div>
         <span>grayscale:</span>
         <input id="grayscale" class="control" type="range" step="1" min="0" max="100" v-model="grayscaleVal"
           @input="colorPick">
-          <span>{{grayscaleVal}}%</span>
+        <span>{{grayscaleVal}}%</span>
       </div>
       <div>
         <span>opacity:</span>
         <input id="opacity" class="control" type="range" step="1" min="0" max="100" v-model="opacityVal"
           @input="colorPick">
-          <span>{{opacityVal}}%</span>
+        <span>{{opacityVal}}%</span>
       </div>
     </div>
+
+    <div id="filterImage" class="mask-image"></div>
   </div>
 </body>
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
@@ -93,7 +93,7 @@
         blurVal: 0, // 给图像设置高斯模糊。"radius"一值设定高斯函数的标准差，或者是屏幕上以多少像素融在一起， 所以值越大越模糊
         contrastVal: 100, // 	调整图像的对比度。值是0%的话，图像会全黑。值是100%，图像不变。值可以超过100%，意味着会运用更低的对比
         grayscaleVal: 0, // 将图像转换为灰度图像。值定义转换的比例。值为100%则完全转为灰度图像，值为0%图像无变化。值在0%到100%之间，则是效果的线性乘子。若未设置，值默认是0
-        opacityVal: 100,  // 转化图像的透明程度。值定义转换的比例。值为0%则是完全透明，值为100%则图像无变化。值在0%和100%之间，则是效果的线性乘子，也相当于图像样本乘以数量。
+        opacityVal: 100, // 转化图像的透明程度。值定义转换的比例。值为0%则是完全透明，值为100%则图像无变化。值在0%和100%之间，则是效果的线性乘子，也相当于图像样本乘以数量。
       }
     },
     mounted() {
